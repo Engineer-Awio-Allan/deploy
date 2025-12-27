@@ -7,15 +7,20 @@ services:
     branch: main    # Specify your branch
     
     buildCommand: |
-      # Install dependencies
-      bundle install
-      
-      # Run database migrations
-      bundle exec rails db:migrate
-      
-      # Precompile assets
-      bundle exec rails assets:precompile
-      bundle exec rails assets:clean
+  # Clean installation
+  gem install bundler
+  bundle config set --local deployment 'true'
+  bundle config set --local without 'development test'
+  
+  # Install dependencies
+  bundle install
+  
+  # Run migrations using rails command directly
+  bundle exec rails db:create db:migrate
+  
+  # Precompile assets
+  bundle exec rails assets:precompile
+  bundle exec rails assets:clean
       
     startCommand: bundle exec puma -C config/puma.rb
     
